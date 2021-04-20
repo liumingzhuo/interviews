@@ -58,5 +58,50 @@ func Altprint() {
 	}(&wait)
 	num <- struct{}{}
 	wait.Wait()
+}
+
+// 简单写法
+func AltPrintSimple() {
+	num, letter := make(chan struct{}), make(chan struct{})
+	var wg *sync.WaitGroup = &sync.WaitGroup{}
+	go func() {
+		i := 1
+		for {
+			select {
+			case <-num:
+				fmt.Print(i)
+				i++
+				fmt.Print(i)
+				i++
+				letter <- struct{}{}
+				break
+			default:
+				break
+			}
+		}
+	}()
+	wg.Add(1)
+	go func(wg *sync.WaitGroup) {
+		i := 'A'
+		for {
+			select {
+			case <-letter:
+				if i >= 'Z' {
+					wg.Done()
+					return
+				}
+				fmt.Print(string(i))
+				i++
+				fmt.Print(string(i))
+				i++
+				num <- struct{}{}
+				break
+			default:
+				break
+			}
+		}
+	}(wg)
+	num <- struct{}{}
+	wg.Wait()
 
 }
