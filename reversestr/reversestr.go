@@ -7,11 +7,11 @@ package reversestr
 func reverseString(str string) (string, bool) {
 	s := []rune(str)
 	l := len(s)
-  if l > 5000{
-    return str, false
-  }
-  for i := 0; i < l/2; i++{
-    s[i], s[l-i-1] = s[l-i-1],s[i]
-  }
-  return string(s), true
+	if l > 5000 {
+		return str, false
+	}
+	for i := 0; i < l/2; i++ {
+		s[i], s[l-i-1] = s[l-i-1], s[i]
+	}
+	return string(s), true
 }
