@@ -97,7 +97,7 @@ func main() {
 
 	for i := 0; i < 10; i++ {
 		go func() {
-			val := mm.Rd("k", time.Second*6)
+			val := mm.Rd("k", time.Second*5)
 			fmt.Println("val is :", val)
 		}()
 	}
@@ -107,6 +107,7 @@ func main() {
 			mm.Out("k", i)
 		}(i)
 	}
+
 	time.Sleep(time.Second * 30)
 
 }
